@@ -13,11 +13,19 @@ module.exports = yeoman.generators.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+        type: 'list',
+        choices: ['both', 'service', 'replication'],
+        name: 'ktype',
+        message: 'Which type do you want to generate?'
+        // default: both
+      },
+      {
+        type: 'input',
+        name: 'kname',
+        message: 'Please give me the name of the service/replicationcontroller'
+        // default: 'true'
+      }
+    ];
 
     this.prompt(prompts, function (props) {
       this.props = props;
@@ -29,29 +37,20 @@ module.exports = yeoman.generators.Base.extend({
 
   writing: {
     app: function () {
-      this.fs.copy(
-        this.templatePath('_package.json'),
-        this.destinationPath('package.json')
-      );
-      this.fs.copy(
-        this.templatePath('_bower.json'),
-        this.destinationPath('bower.json')
-      );
-    },
-
-    projectfiles: function () {
-      this.fs.copy(
-        this.templatePath('editorconfig'),
-        this.destinationPath('.editorconfig')
-      );
-      this.fs.copy(
-        this.templatePath('jshintrc'),
-        this.destinationPath('.jshintrc')
-      );
+      if (this.props.ktype === 'both' || this.props.ktype === 'service') {
+        this.fs.copyTpl(
+          this.templatePath('_svc.yml'),
+          this.destinationPath('svc.yml'),
+          {'name': this.props.kname}
+        );
+      }
+      if (this.props.ktype === 'both' || this.props.ktype === 'service') {
+        this.fs.copyTpl(
+          this.templatePath('_rc.yml'),
+          this.destinationPath('rc.yml'),
+          {'name': this.props.kname}
+        );
+      }
     }
-  },
-
-  install: function () {
-    this.installDependencies();
   }
 });

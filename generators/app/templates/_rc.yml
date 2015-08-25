@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: <%= name %>
+  labels:
+    name: <%= name %>
+spec:
+  volumes:
+    - name: <%= name %>-data
+      gcePersistentDisk:
+        pdName: <%= name %>
+        fsType: ext4
+        readOnly: false
+  containers:
+    - name: <%= name %>
+      image: sameersbn/<%= name %>
+      env:
+        - name: SOME_ENV
+          value: "1"
+      ports:
+        - containerPort: 0000
+      resources:
+        limits:
+          cpu: "0.1"
+      volumeMounts:
+        - mountPath: /data
+          name: <%= name %>-data
