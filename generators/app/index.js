@@ -13,11 +13,19 @@ module.exports = yeoman.generators.Base.extend({
     ));
 
     var prompts = [{
-      type: 'confirm',
-      name: 'someOption',
-      message: 'Would you like to enable this option?',
-      default: true
-    }];
+        type: 'list',
+        choices: ['both', 'service', 'replication'],
+        name: 'type',
+        message: 'Which type do you want to generate?'
+        // default: both
+      },
+      {
+        type: 'input',
+        name: 'name',
+        message: 'Please give me the name of the service/replicationcontroller'
+        // default: 'true'
+      }
+    ];
 
     this.prompt(prompts, function (props) {
       this.props = props;
