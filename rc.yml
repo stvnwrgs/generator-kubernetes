@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: steven
+  labels:
+    name: steven
+spec:
+  volumes:
+    - name: slack-hodor-steven-data
+      gcePersistentDisk:
+        pdName: slack-hodor-steven
+        fsType: ext4
+        readOnly: false
+  containers:
+    - name: steven
+      image: sameersbn/steven
+      env:
+        - name: REDIS_PASSWORD
+          value: "as728Jajsh27ia901lm"
+      ports:
+        - containerPort: 6379
+      resources:
+        limits:
+          cpu: "0.1"
+      volumeMounts:
+        - mountPath: /data
+          name: slack-hodor-steven-data

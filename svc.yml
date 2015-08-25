@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    name: redis
+spec:
+  volumes:
+    - name: slack-hodor-redis-data
+      gcePersistentDisk:
+        pdName: slack-hodor-redis
+        fsType: ext4
+        readOnly: false
+  containers:
+    - name: redis
+      image: sameersbn/redis
+      env:
+        - name: REDIS_PASSWORD
+          value: "as728Jajsh27ia901lm"
+      ports:
+        - containerPort: 6379
+      resources:
+        limits:
+          cpu: "0.1"
+      volumeMounts:
+        - mountPath: /data
+          name: slack-hodor-redis-data
