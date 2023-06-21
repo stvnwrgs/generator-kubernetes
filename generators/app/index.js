@@ -44,7 +44,7 @@ module.exports = yeoman.generators.Base.extend({
           {'name': this.props.kname}
         );
       }
-      if (this.props.ktype === 'both' || this.props.ktype === 'service') {
+      if (this.props.ktype === 'both' || this.props.ktype === 'replication') {
         this.fs.copyTpl(
           this.templatePath('_rc.yml'),
           this.destinationPath('rc.yml'),
